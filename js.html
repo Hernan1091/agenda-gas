@@ -1,16 +1,25 @@
 <script>
+const NOTIFICACION_OK = 1;
+const NOTIFICACION_DANGER = 2;
+const NOTIFICACION_WARNING = 3;
 
+    //Interactividad del Main
     function crearTablaContactos()
     {
         let tabla = document.getElementById('tablaContactos'); /* Tratamos de seleleccionar la tabla para comprobar si existe por que más adelante se crea una tabla con ese id */
         if (tabla) tabla.remove();
-        /* ObtenerContactos() es la función que se programa en el archivo funciones.js */
-        google.script.run.withSuccessHandler(/* aquí se escribe la función que trabajará con los valores devueltos por la función obtener contactos. que recuerda que es un array */
-            function(obj)
+
+        /* aquí se escribe la función que trabajará con los valores devueltos por la función obtener contactos. que recuerda que es un array */
+        google.script.run
+        .withSuccessHandler(crearTablaContactosCorrectamente)
+        .withFailureHandler(crearTablaContactosError)
+        .obtenerContactos();         /* ObtenerContactos() es la función que se programa en el archivo funciones.js */
+    }
+
+    function crearTablaContactosCorrectamente(obj)
             {   
                 
-                /* create elemen sirve para crear un elemento de tipo HTML */
-                tabla = document.createElement('table');
+                tabla = document.createElement('table'); /* create elemen sirve para crear un elemento de tipo HTML */
                 tabla.id = 'tablaContactos' /* Colocamos un id para que cuando aplanemos mostrar tabla compruebe si existe  */
 
                 let tablaHeader = document.createElement('thead'); /* Interferir el bucle para que en la primera iteración determinemos cual es el encabezado. */
@@ -64,10 +73,54 @@
                 /* Agregamos el cuerpo a la tabla */
                 tabla.appendChild(tablaBody);
                 /* Agregamos clases a la tabla */
-                tabla.classList.add('table', 'table-striped', 'border', 'border-3',);
+                tabla.classList.add('table', 'table-striped', 'border', 'border-3','border-dark');
                 /* Agregamos tabla a la página */
                 document.getElementById('divContactos').appendChild(tabla);
+                /* Mostrar notificación de ok */
+                crearNotificacion(NOTIFICACION_OK,'Contactos obtenidos correctamente','Todo en orden')
+
             }
-        ).obtenerContactos();
+
+    function crearTablaContactosError(){
+        /* Mostrar una notificación */
+        crearNotificacion(NOTIFICACION_DANGER,'No se han podido leer los contactos','ERROR')
+    }
+    
+    function crearNotificacion(tipo, mensaje, titulo){
+        /* Obtener los datos de la notificación */
+        let mensajeNotificacion = document.getElementById('mensajeNotificacion');
+        let tituloNotificacion = document.getElementById('tituloNotificacion');
+        let elementoNotificacion = document.getElementById('notificacion');
+        let iconoNotificacion = document.getElementById('iconoNotificacion');
+        let notificacion = bootstrap.Toast.getOrCreateInstance(elementoNotificacion);
+
+        /* Editar la notificacion */
+        mensajeNotificacion.textContent = mensaje;
+        tituloNotificacion.textContent = titulo;
+        
+        switch(tipo){
+            case NOTIFICACION_OK:
+            iconoNotificacion.className = '';
+            iconoNotificacion.classList.add('bi', 'bi-check2-square');
+            elementoNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-verde-obscuro');
+            break;
+
+            case NOTIFICACION_DANGER:
+            iconoNotificacion.className = '';
+            iconoNotificacion.classList.add('bi', 'bi-bug');
+            elementoNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-rojo-obscuro');
+            break;
+
+            case NOTIFICACION_WARNING:
+            iconoNotificacion.className = '';
+            iconoNotificacion.classList.add('bi', 'bi-exclamation-square');
+            elementoNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--color-amarillo-obscuro');
+            break;
+        } 
+
+
+        /* Mostrar la notificacion */
+        notificacion.show()
+
     }
 </script>
