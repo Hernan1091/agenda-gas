@@ -1,4 +1,44 @@
 <script>
+    function insertarContacto()
+    {   
+        /* Obtener los datos */
+        let nombre = document.getElementById('nombre').value;
+        let correo = document.getElementById('correo').value;
+
+        /* Eliminar la tabla */
+        eliminarTabla();
+
+        /* Insertar loader */
+        crearLoaderAnillo('divContactos');
+        /* aquí se escribe la función que trabajará con los valores devueltos por la función obtener contactos. que recuerda que es un array */
+        google.script.run
+        .withSuccessHandler(contactoInsertadoCorrectamente)
+        .withFailureHandler(contactoInsertadoError)
+        .insertarContacto(nombre,correo);         /* insertarContactos() es la función que se programa en el archivo funciones.js */
+    }
+
+    function contactoInsertadoCorrectamente(){
+        //Eliminamos los datos de los inputs
+        document.getElementById('nombre').value = '';
+        document.getElementById('correo').value = '';
+
+        //Mostrar notificacion
+        crearNotificacionOk('Contacto insertado correctamente', 'CONTACTO OK')
+
+        //Eliminar Loader
+        eliminarLoader();
+
+        //Mostrar la tabla
+        crearTablaContactos();
+    }
+
+    function contactoInsertadoError(){
+        crearNotificacionError('No se ha podido insertar el contacto','ERROR')
+        //Eliminar Loader
+        eliminarLoader();
+        //Mostrar la tabla
+        crearTablaContactos();
+    }
 
     //Interactividad del Main
     function crearTablaContactos()
