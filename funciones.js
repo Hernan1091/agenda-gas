@@ -22,8 +22,8 @@ function obtenerContactos(){
     /* getDataRange() Obtiene los datos de la hoja y nos devuelve un objeto del tipo rango y get Values nos devuelve una matriz/array con los valores */
     return HOJA.getDataRange().getValues();
 }
-
-function insertarContacto(nombre,correo){
-    HOJA.appendRow([nombre,correo]);
+//Esta es la funcion que  agrega los campos del formulario en google sheets
+function insertarContacto(nombre, apellidos, correo, telf){
+    HOJA.appendRow([nombre, apellidos, correo, telf]);
 
 }
