@@ -1,5 +1,5 @@
-    /* Aquí se copía el id de la hoja de cálculo  El método openById() me devuelve un objeto del tipo Spreadsheet y getActiveSheet() me devuelve un objeto del tipo sheet*/
-    const HOJA = SpreadsheetApp.openById('1nFWll96OkDEyXA-yVMxZkTpLwF64vSx7ILgcxFJKvMI').getActiveSheet();
+/* Aquí se copía el id de la hoja de cálculo  El método openById() me devuelve un objeto del tipo Spreadsheet y getActiveSheet() me devuelve un objeto del tipo sheet*/
+const HOJA = SpreadsheetApp.openById('1nFWll96OkDEyXA-yVMxZkTpLwF64vSx7ILgcxFJKvMI').getActiveSheet();
 
 /* Por aqui empieza la aplicación */
 function doGet(datos){
@@ -30,4 +30,9 @@ function insertarContacto(nombre, apellidos, correo, telf){
 
 function borrarContacto(numFila){
     HOJA.deleteRow(numFila)
+}
+
+function modificarContacto(numFila, datos){
+    let celdas = HOJA.getRange('A'+ numFila + ':D' + numFila);
+    celdas.setValues([[datos.nombre, datos.apellidos, datos.correo, datos.telf]]);
 }

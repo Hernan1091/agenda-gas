@@ -4,12 +4,12 @@
     <!-- Botones -->
     <button type="button" class="btn btn-success m-2" onclick="crearTablaContactos()">Mostrar Contactos</button>
         <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#crearContactoModal">
+    <button type="button" class="btn btn-primary m-2" onclick="abrirModalCrearContacto()">
       Nuevo Contacto
     </button>
   </div>
 
-  <!-- Tabla de contactos -->
+  <!-- Tabla de contactos (Aqui es donde se inserta los iconos de carga)-->
   <div class="container col-12 col-lg-6 mb-4 d-flex justify-content-center" id="divContactos">
 
   </div>
@@ -32,13 +32,13 @@
   </div>
 
 
-  <!-- Modal -->
+  <!-- Modal (La ventana de bootstrap que aparece de arriba de la pantalla) -->
   <div class="modal fade" id="crearContactoModal" tabindex="-1" aria-labelledby="tituloCrearContactoModal"
     aria-hidden="true">
     <div class="modal-lg modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tituloCrearContactoModal">Nuevo Contacto</h5>
+          <h5 class="modal-title" id="tituloModal">Nuevo Contacto</h5>
         </div>
         <!-- Formulario crear contacto -->
         <form onsubmit="insertarContacto()" method="dialog" id="formulario"> <!-- Estudiar el metodo dialog -->
@@ -63,15 +63,10 @@
               <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
               <input type="tel" class="form-control" name="telf" id="telf" pattern="[0-9]{9,11}" title="El teléfono debe contener solo caractéres numéricos." required>
             </div>
-
-
-
-
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success">Crear contacto</button>
+            <button id="botonCrearModificar" type="submit" class="btn btn-success">Crear contacto</button>
           </div>
         </form>
       </div>
