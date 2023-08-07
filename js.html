@@ -1,4 +1,20 @@
 <script>
+
+    //Boton subir 
+    window.addEventListener('scroll',function(){
+        if(this.window.scrollY > 500){
+            document.getElementById('botonSubir').style.transform = "scale(1)";
+        }
+
+        if(this.window.scrollY < 500){
+            document.getElementById('botonSubir').style.transform = "scale(0)";
+        }
+    })
+
+    function subirArriba(){
+        document.body.scrollTo = 0;
+        document.documentElement.scrollTop = 0;
+    }
     function insertarContacto()
     {   
         /* Obtener los datos */
