@@ -1,0 +1,128 @@
+<script>
+        //Interactividad del Main
+        function crearTablaContactos()
+    {   
+        limpiar();
+
+        /* aquí se escribe la función que trabajará con los valores devueltos por la función obtener contactos. que recuerda que es un array */
+        google.script.run
+        .withSuccessHandler(crearTablaContactosCorrectamente)
+        .withFailureHandler(crearTablaContactosError)
+        .obtenerContactos();         /* ObtenerContactos() es la función que se programa en el archivo funciones.js */
+    }
+
+    function crearTablaContactosCorrectamente(obj)
+            {   
+
+
+                tabla = document.createElement('table'); /* create elemen sirve para crear un elemento de tipo HTML */
+                tabla.id = 'tablaContactos' /* Colocamos un id para que cuando aplanemos mostrar tabla compruebe si existe  */
+
+                let tablaHeader = document.createElement('thead'); /* Interferir el bucle para que en la primera iteración determinemos cual es el encabezado. */
+                let tablaBody = document.createElement('tbody');
+                
+
+
+                /* Crear tabla con bucle for */
+                /* Header de la tabla */
+                let primeraFila = document.createElement('tr');
+                for(let i = 0; i < obj[0].length; i++){
+                    let celda = document.createElement('td');
+                    celda.textContent = obj[0][i];
+                    primeraFila.appendChild(celda);
+                    
+                }
+                //añadir una columna OPCIONES
+                let celdaOpciones = document.createElement('td');
+                celdaOpciones.textContent = 'OPCIONES';
+                celdaOpciones.classList.add('text-center');
+                primeraFila.appendChild(celdaOpciones);
+
+                /* Agregar la fila al header */
+                    tablaHeader.appendChild(primeraFila);
+                    tabla.appendChild(tablaHeader);
+
+                /* Body de la tabla */
+                for(let i = 1; i < obj.length; i++){
+                    let fila = document.createElement('tr');
+                    for (let j = 0; j < obj[i].length; j++){
+                        let celda = document.createElement('td');
+                        celda.textContent = obj[i][j];
+                        fila.appendChild(celda);
+                        //Si es el elemento de la columna 5 la hacemos imagen
+                        if (j==4){
+                            //crearemos la imagen
+                            celda.textContent ='';
+                            let imagen = document.createElement('img');
+                            imagen.classList.add('img-fluid','rounded');
+                            imagen.src = obj[i][j];
+                            celda.appendChild(imagen);
+                            
+                        }
+                    }
+                    //Agregar los botones
+                    fila.appendChild(crearCeldaBotones(i+1, obj[i])); 
+                    tablaBody.appendChild(fila);
+                    
+                }
+                /* Agregamos clases a la cabecera */
+                tablaHeader.classList.add('table-dark');
+                /* Agregamos el cuerpo a la tabla */
+                tabla.appendChild(tablaBody);
+                /* Agregamos clases a la tabla */
+                tabla.classList.add('table', 'table-striped', 'border', 'border-3','border-dark');
+                /* Agregamos tabla a la página */
+                document.getElementById('divContactos').appendChild(tabla);
+
+                /* Mostrar notificación de ok */
+                crearNotificacionOk('Contactos obtenidos correctamente','Todo en orden');
+                
+                /* Eliminar loader */
+                eliminarLoader();
+            }
+
+            function eliminarTabla(){
+                let tabla = document.getElementById('tablaContactos'); /* Tratamos de seleleccionar la tabla para comprobar si existe por que más adelante se crea una tabla con ese id */
+                if (tabla) tabla.remove();
+            }
+
+            
+    function crearTablaContactosError(){
+        /* Mostrar una notificación */
+        crearNotificacionError('No se han podido leer los contactos','ERROR');
+        /* Eliminar loader */
+
+        eliminarLoader();
+    }
+    
+    function crearCeldaBotones(numFila, datosContacto){
+        let celda = document.createElement('td');
+        celda.classList.add('text-center');
+        //Crear botón de borrar
+        let botonBorrar = document.createElement('button');
+        botonBorrar.onclick = () => borrarContacto(numFila);
+        botonBorrar.classList.add('btn','btn-danger','m-1');
+
+        //icono Borrar
+        let iconoBorrar = document.createElement('i');
+        iconoBorrar.classList.add('bi','bi-trash');
+        botonBorrar.appendChild(iconoBorrar);
+        
+        //Crear botón modificar
+        let botonModificar = document.createElement('button');
+        botonModificar.onclick = () => abrirModalModificarContacto(numFila, datosContacto);
+        botonModificar.classList.add('btn','btn-warning','m-1');
+        
+        //icono Modificar
+        let iconoModificar = document.createElement('i');
+        iconoModificar.classList.add('bi','bi-pencil-square');
+        botonModificar.appendChild(iconoModificar);
+
+        //Agregar los botones a la celda
+        celda.appendChild(botonBorrar);
+        celda.appendChild(botonModificar);
+
+        return celda;
+    }
+
+</script>

@@ -1,0 +1,50 @@
+<script>
+        //abrir el modal en modo crear
+        function abrirModalCrearContacto(){
+        //boton crear
+        let boton = document.getElementById('botonCrearModificar');
+        boton.textContent = 'Crear Contacto';
+        boton.classList = '';
+        boton.classList.add ('btn','btn-success');
+
+        //cambiar titulo del modal
+        document.getElementById('tituloModal').textContent = 'Crear Contacto';
+
+        //modificar el submit
+        document.getElementById('formulario').onsubmit = () => insertarContacto();
+
+        //llenar el formulario con los datos que recibimos de datosContacto
+        document.getElementById('nombre').value = '';
+        document.getElementById('apellidos').value = '';
+        document.getElementById('correo').value = '';
+        document.getElementById('telf').value = '';
+
+        //abrir el modal
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).show();
+    }
+//Abrir el modal en modo modificar
+/* Esta función modifica el modal para reutilizarlo e intercambiarlo entre un modal para crear contacto y uno para modificar */
+    function abrirModalModificarContacto(numFila, datosContacto){
+        //boton modificar
+        let boton = document.getElementById('botonCrearModificar');
+        boton.textContent = 'Modificar Contacto';
+        boton.classList = '';
+        boton.classList.add ('btn','btn-warning');
+
+        //cambiar titulo del modal
+        document.getElementById('tituloModal').textContent = 'Modificar Contacto';
+
+        //modificar el submit
+        document.getElementById('formulario').onsubmit = () => modificarContacto(numFila);
+
+        //llenar el formulario con los datos que recibimos de datosContacto
+        document.getElementById('nombre').value = datosContacto.nombre;
+        document.getElementById('apellidos').value = datosContacto.apellidos;
+        document.getElementById('correo').value = datosContacto.correo;
+        document.getElementById('telf').value = datosContacto.telf;
+
+        //abrir el modal
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).show();
+    }
+
+</script>

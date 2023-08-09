@@ -1,0 +1,30 @@
+<script>
+    
+    /* Esta función crea el loader */
+    function crearLoader(elementoPadre){
+
+eliminarLoader();
+let loader = document.createElement('div');
+loader.id = 'loader';
+loader.appendChild(document.createElement('div'));
+loader.appendChild(document.createElement('div'));
+loader.appendChild(document.createElement('div'));
+loader.appendChild(document.createElement('div')); /* Se crean 4 divs por que asi lo necesita el loader para funcionar con el css */
+return document.getElementById(elementoPadre).appendChild(loader);
+}
+
+function crearLoaderPuntos(elementoPadre){
+let loader = crearLoader(elementoPadre);
+loader.classList.add('lds-ellipsis'); /* Se le añade la clase al div principal */
+}
+
+function crearLoaderAnillo(elementoPadre){
+let loader = crearLoader(elementoPadre);
+loader.classList.add('lds-ring'); /* Se le añade la clase al div principal */
+}
+/* Esta funcion elimina el loader cuando termine la carga de la tabla */
+function eliminarLoader(){
+let loader = document.getElementById('loader');
+if(loader) loader.remove();
+}
+</script>
